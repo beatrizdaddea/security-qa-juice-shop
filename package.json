@@ -1,0 +1,31 @@
+{
+  "name": "security-qa-juice-shop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Security-focused QA portfolio for a local OWASP Juice Shop instance.",
+  "scripts": {
+    "test": "npm run cy:run",
+    "precy:run": "node ./scripts/clean-allure.cjs",
+    "cy:open": "node ./node_modules/cypress/bin/cypress open",
+    "cy:run": "node ./node_modules/cypress/bin/cypress run",
+    "test:api": "node ./node_modules/cypress/bin/cypress run --spec \"cypress/e2e/api/**/*.cy.ts\"",
+    "test:ui": "node ./node_modules/cypress/bin/cypress run --spec \"cypress/e2e/ui/**/*.cy.ts\"",
+    "allure:generate": "node ./scripts/allure-cli.cjs generate allure-results --clean -o allure-report",
+    "allure:open": "node ./scripts/allure-cli.cjs open allure-report"
+  },
+  "keywords": [
+    "qa",
+    "security-testing",
+    "owasp-juice-shop",
+    "cypress",
+    "allure"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "allure-commandline": "^2.46.1",
+    "allure-cypress": "^3.13.0",
+    "allure-js-commons": "^3.13.0",
+    "cypress": "^16.1.1",
+    "typescript": "^7.0.2"
+  }
+}
