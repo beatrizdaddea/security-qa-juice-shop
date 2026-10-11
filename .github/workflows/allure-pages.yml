@@ -1,0 +1,224 @@
+name: Cypress Allure Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+# Action major versions are pinned to the documented stable majors. Review and
+# update these versions deliberately when GitHub publishes a new major.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+env:
+  JUICE_SHOP_URL: http://localhost:3000
+  ALLURE_HISTORY_LIMIT: 10
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      juice-shop:
+        image: bkimminich/juice-shop:v20.2.0
+        ports:
+          - 3000:3000
+        options: >-
+          --health-cmd="node -e \"require('http').get('http://localhost:3000/',r=>process.exit(r.statusCode < 500 ? 0 : 1)).on('error',()=>process.exit(1))\""
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify target is localhost
+        run: |
+          test "$JUICE_SHOP_URL" = "http://localhost:3000"
+          grep -R --fixed-strings --line-number "http://localhost:3000" cypress.config.ts
+
+      - name: Restore sanitized history from the previous Pages report
+        env:
+          PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: |
+          mkdir -p allure-results/history
+          for file in categories.json duration.json history.json retry-trend.json suites.json; do
+            curl --fail --silent --show-error --location "$PAGES_URL/history/$file" \
+              -o "allure-results/history/$file" || rm -f "allure-results/history/$file"
+          done
+
+      - name: Run Cypress and allow confirmed vulnerability findings
+        shell: bash
+        run: |
+          set +e
+          npm run cy:run
+          cypress_status=$?
+          set -e
+
+          if [ "$cypress_status" -ne 0 ]; then
+            node <<'NODE'
+            const fs = require('fs');
+            const path = require('path');
+            const root = 'allure-results';
+            const files = fs.existsSync(root)
+              ? fs.readdirSync(root).filter((name) => name.endsWith('-result.json'))
+              : [];
+            const unexpected = [];
+            for (const name of files) {
+              const result = JSON.parse(fs.readFileSync(path.join(root, name), 'utf8'));
+              if (['failed', 'broken'].includes(result.status)) {
+                const message = result.statusDetails?.message || '';
+                if (!message.includes('KNOWN_VULNERABILITY')) unexpected.push(result.name || name);
+              }
+            }
+            if (unexpected.length) {
+              console.error('Unexpected test failures:', unexpected.join(', '));
+              process.exit(1);
+            }
+            console.log('Only documented KNOWN_VULNERABILITY failures were found; continuing.');
+            NODE
+          fi
+
+      - name: Generate Allure report
+        run: npm run allure:generate
+
+      - name: Limit Allure history
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const dir = 'allure-report/history';
+          const limit = Number(process.env.ALLURE_HISTORY_LIMIT);
+          if (fs.existsSync(dir)) {
+            for (const name of fs.readdirSync(dir).filter((file) => file.endsWith('.json'))) {
+              const file = path.join(dir, name);
+              const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+              if (Array.isArray(data)) {
+                fs.writeFileSync(file, JSON.stringify(data.slice(-limit), null, 2));
+              } else if (Array.isArray(data.data)) {
+                data.data = data.data.slice(-limit);
+                fs.writeFileSync(file, JSON.stringify(data, null, 2));
+              }
+            }
+          }
+          NODE
+
+      - name: Add publication disclosure
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          report = Path('allure-report/index.html')
+          if not report.exists():
+              raise SystemExit('Allure index.html was not generated')
+          notice = '''<aside style="margin:1rem;padding:1rem;border:2px solid #b45309;background:#fff7ed;font-family:Arial,sans-serif"><strong>Disclosure / Aviso:</strong> This report was generated from tests against OWASP Juice Shop, a deliberately vulnerable training application, in a local or controlled CI environment. No real production system was tested or affected. / Este relatório foi gerado contra o OWASP Juice Shop, uma aplicação de treinamento propositalmente vulnerável, em ambiente local ou CI controlado. Nenhum sistema real de produção foi testado ou afetado.</aside>'''
+          text = report.read_text(encoding='utf-8')
+          report.write_text(text.replace('<body>', '<body>' + notice, 1), encoding='utf-8')
+          PY
+
+      - name: Upload sanitized build inputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-publication-inputs
+          path: |
+            allure-results/
+            allure-report/
+          retention-days: 14
+
+  sanitize:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download report inputs
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-publication-inputs
+          path: publication
+
+      - name: Remove prohibited media and raw log attachments
+        run: |
+          find publication/allure-results publication/allure-report -type f \( \
+            -iname '*.mp4' -o -iname '*.webm' -o -iname '*.mov' -o -iname '*.avi' \
+            -o -iname '*.log' -o -iname '*.har' \) -delete
+
+      - name: Scan report for prohibited data
+        run: |
+          python3 - <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          roots = [Path('publication/allure-results'), Path('publication/allure-report')]
+          patterns = [
+              re.compile(r'Authorization\s*[:=]', re.I),
+              re.compile(r'Bearer\s+[A-Za-z0-9._-]{10,}', re.I),
+              re.compile(r'(?:token|password|cookie|session)\s*[:=]\s*["\']?[^,\s}\'"<>]{6,}', re.I),
+          ]
+          email = re.compile(r'[A-Za-z0-9._%+\-]+@([A-Za-z0-9.\-]+\.[A-Za-z]{2,})')
+          findings = []
+          for root in roots:
+              if not root.exists():
+                  continue
+              for file in root.rglob('*'):
+                  if not file.is_file():
+                      continue
+                  try:
+                      text = file.read_text(encoding='utf-8', errors='ignore')
+                  except OSError:
+                      continue
+                  for pattern in patterns:
+                      if pattern.search(text):
+                          findings.append(f'{file}: prohibited authentication pattern')
+                          break
+                  for match in email.finditer(text):
+                      if match.group(1).lower() != 'example.com':
+                          findings.append(f'{file}: non-example.com email')
+                          break
+          if findings:
+              print('\n'.join(sorted(set(findings))))
+              sys.exit('Sanitization failed; report will not be published.')
+          print('Sanitization passed.')
+          PY
+
+      - name: Upload sanitized report
+        uses: actions/upload-artifact@v4
+        with:
+          name: sanitized-allure-report
+          path: publication/allure-report/
+          retention-days: 14
+
+  deploy:
+    needs: [test, sanitize]
+    if: ${{ needs.test.result == 'success' && needs.sanitize.result == 'success' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download sanitized report
+        uses: actions/download-artifact@v4
+        with:
+          name: sanitized-allure-report
+          path: site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
