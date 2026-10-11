@@ -1,0 +1,25 @@
+# Node.js dependencies
+node_modules/
+
+# Cypress generated artifacts
+cypress/downloads/
+cypress/screenshots/
+cypress/videos/
+evidence/screenshots/
+
+# Allure generated artifacts
+allure-results/
+allure-report/
+reports/*.html
+
+# Logs and local environment files
+*.log
+.env
+.env.*
+!.env.example
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
