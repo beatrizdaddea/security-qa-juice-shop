@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Known failure (confirmed vulnerability) / Falha conhecida (vulnerabilidade confirmada)",
+    "matchedStatuses": ["broken", "failed"],
+    "messageRegex": ".*KNOWN_VULNERABILITY.*"
+  },
+  {
+    "name": "Test failure (test defect) / Falha de teste (defeito no teste)",
+    "matchedStatuses": ["broken", "failed"],
+    "messageRegex": ".*"
+  }
+]
