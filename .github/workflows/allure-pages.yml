@@ -28,7 +28,11 @@ jobs:
         image: bkimminich/juice-shop:v20.2.0
         ports:
           - 3000:3000
-        options: --no-healthcheck
+        options: >-
+          --health-cmd "node -e 'require(\"http\").get(\"http://localhost:3000/\",r=>process.exit(r.statusCode < 500 ? 0 : 1)).on(\"error\",()=>process.exit(1))'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
