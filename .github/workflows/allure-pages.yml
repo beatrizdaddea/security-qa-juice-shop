@@ -28,11 +28,6 @@ jobs:
         image: bkimminich/juice-shop:v20.2.0
         ports:
           - 3000:3000
-        options: >-
-          --health-cmd="node -e \"require('http').get('http://localhost:3000/',r=>process.exit(r.statusCode < 500 ? 0 : 1)).on('error',()=>process.exit(1))\""
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,6 +40,18 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Wait for Juice Shop
+        run: |
+          for attempt in {1..60}; do
+            if curl --fail --silent --show-error "$JUICE_SHOP_URL/" > /dev/null; then
+              echo "Juice Shop is ready."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Juice Shop did not become ready at $JUICE_SHOP_URL"
+          exit 1
 
       - name: Verify target is localhost
         run: |
