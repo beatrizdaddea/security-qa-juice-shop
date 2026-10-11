@@ -70,7 +70,7 @@ The script accepts only `http://localhost:3000` and writes `reports/zap-baseline
 - Complete a formal run and fill the execution report.
 - Review and stabilize selectors across supported browsers.
 - Pin the Juice Shop image by immutable digest.
-- Consider publishing the generated Allure site with a GitHub Pages workflow after defining retention and disclosure rules; no publishing workflow is included yet.
+- Review [docs/publication-policy.md](docs/publication-policy.md) before using the GitHub Pages workflow. The workflow publishes only a sanitized report after the test and sanitization jobs pass.
 
 ---
 
@@ -144,4 +144,22 @@ O script aceita apenas `http://localhost:3000` e grava `reports/zap-baseline.htm
 - Concluir uma execução formal e preencher o relatório.
 - Revisar e estabilizar seletores nos navegadores suportados.
 - Fixar a imagem do Juice Shop por digest imutável.
-- Considerar a publicação do site Allure via GitHub Pages após definir regras de retenção e divulgação; nenhum workflow de publicação foi incluído.
+- Revisar a [política de publicação](docs/publication-policy.md) antes de usar o workflow do GitHub Pages. A publicação ocorre somente após os testes e a sanitização passarem.
+
+## Allure on GitHub Pages / Allure no GitHub Pages
+
+### English
+
+Published report: **[Allure report (placeholder)](https://SEU_USUARIO.github.io/security-qa-juice-shop/)**
+
+The publication workflow is `.github/workflows/allure-pages.yml`. It runs on pushes to `main` or by manual dispatch, tests only the pinned Juice Shop image against `http://localhost:3000`, sanitizes the generated report, and deploys only when both jobs pass. Read [docs/publication-policy.md](docs/publication-policy.md) before publishing.
+
+To enable Pages manually: open **Settings → Pages**, choose **Source: GitHub Actions**, review the `github-pages` environment, then run the workflow manually or push to `main`. To unpublish, disable or remove the Pages deployment and cancel any running workflow.
+
+### Português (PT-BR)
+
+Relatório publicado: **[Relatório Allure (placeholder)](https://SEU_USUARIO.github.io/security-qa-juice-shop/)**
+
+O workflow está em `.github/workflows/allure-pages.yml`. Ele testa somente a imagem fixada do Juice Shop contra `http://localhost:3000`, sanitiza o relatório e publica apenas quando os jobs passam. Para habilitar: abra **Settings → Pages**, escolha **Source: GitHub Actions**, revise o ambiente `github-pages` e execute o workflow. Para despublicar, desabilite ou remova o deployment do Pages e cancele workflows em execução.
+
+Consulte [docs/publication-policy.md](docs/publication-policy.md); nunca publique segredos, tokens, cookies, e-mails reais, logs brutos ou mídias proibidas.
