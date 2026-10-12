@@ -77,27 +77,7 @@ jobs:
           set -e
 
           if [ "$cypress_status" -ne 0 ]; then
-            node <<'NODE'
-            const fs = require('fs');
-            const path = require('path');
-            const root = 'allure-results';
-            const files = fs.existsSync(root)
-              ? fs.readdirSync(root).filter((name) => name.endsWith('-result.json'))
-              : [];
-            const unexpected = [];
-            for (const name of files) {
-              const result = JSON.parse(fs.readFileSync(path.join(root, name), 'utf8'));
-              if (['failed', 'broken'].includes(result.status)) {
-                const message = result.statusDetails?.message || '';
-                if (!message.includes('KNOWN_VULNERABILITY')) unexpected.push(result.name || name);
-              }
-            }
-            if (unexpected.length) {
-              console.error('Unexpected test failures:', unexpected.join(', '));
-              process.exit(1);
-            }
-            console.log('Only documented KNOWN_VULNERABILITY failures were found; continuing.');
-            NODE
+            node ./scripts/validate-known-vulnerabilities.cjs
           fi
 
       - name: Generate Allure report
