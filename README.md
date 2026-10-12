@@ -150,7 +150,7 @@ O script aceita apenas `http://localhost:3000` e grava `reports/zap-baseline.htm
 
 ### English
 
-Published report: **[Allure report (placeholder)](https://SEU_USUARIO.github.io/security-qa-juice-shop/)**
+Published report: **[View the live Allure report](https://beatrizdaddea.github.io/security-qa-juice-shop/)**
 
 The publication workflow is `.github/workflows/allure-pages.yml`. It runs on pushes to `main` or by manual dispatch, tests only the pinned Juice Shop image against `http://localhost:3000`, sanitizes the generated report, and deploys only when both jobs pass. Read [docs/publication-policy.md](docs/publication-policy.md) before publishing.
 
@@ -158,7 +158,7 @@ To enable Pages manually: open **Settings → Pages**, choose **Source: GitHub A
 
 ### Português (PT-BR)
 
-Relatório publicado: **[Relatório Allure (placeholder)](https://SEU_USUARIO.github.io/security-qa-juice-shop/)**
+Relatório publicado: **[Acessar o relatório Allure](https://beatrizdaddea.github.io/security-qa-juice-shop/)**
 
 O workflow está em `.github/workflows/allure-pages.yml`. Ele testa somente a imagem fixada do Juice Shop contra `http://localhost:3000`, sanitiza o relatório e publica apenas quando os jobs passam. Para habilitar: abra **Settings → Pages**, escolha **Source: GitHub Actions**, revise o ambiente `github-pages` e execute o workflow. Para despublicar, desabilite ou remova o deployment do Pages e cancele workflows em execução.
 
