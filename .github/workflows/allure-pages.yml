@@ -116,69 +116,38 @@ jobs:
           report.write_text(text.replace('<body>', '<body>' + notice, 1), encoding='utf-8')
           PY
 
-      - name: Upload sanitized build inputs
+      - name: Prepare publication input
+        run: |
+          mkdir publication-input
+          cp -R allure-report publication-input/allure-report
+
+      - name: Upload publication input
         uses: actions/upload-artifact@v4
         with:
           name: allure-publication-inputs
-          path: |
-            allure-results/
-            allure-report/
+          path: publication-input/
           retention-days: 14
 
   sanitize:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Download report inputs
         uses: actions/download-artifact@v4
         with:
           name: allure-publication-inputs
           path: publication
 
-      - name: Remove prohibited media and raw log attachments
-        run: |
-          find publication/allure-results publication/allure-report -type f \( \
-            -iname '*.mp4' -o -iname '*.webm' -o -iname '*.mov' -o -iname '*.avi' \
-            -o -iname '*.log' -o -iname '*.har' \) -delete
-
-      - name: Scan report for prohibited data
-        run: |
-          python3 - <<'PY'
-          import re
-          import sys
-          from pathlib import Path
-
-          roots = [Path('publication/allure-results'), Path('publication/allure-report')]
-          patterns = [
-              re.compile(r'Authorization\s*[:=]', re.I),
-              re.compile(r'Bearer\s+[A-Za-z0-9._-]{10,}', re.I),
-              re.compile(r'(?:token|password|cookie|session)\s*[:=]\s*["\']?[^,\s}\'"<>]{6,}', re.I),
-          ]
-          email = re.compile(r'[A-Za-z0-9._%+\-]+@([A-Za-z0-9.\-]+\.[A-Za-z]{2,})')
-          findings = []
-          for root in roots:
-              if not root.exists():
-                  continue
-              for file in root.rglob('*'):
-                  if not file.is_file():
-                      continue
-                  try:
-                      text = file.read_text(encoding='utf-8', errors='ignore')
-                  except OSError:
-                      continue
-                  for pattern in patterns:
-                      if pattern.search(text):
-                          findings.append(f'{file}: prohibited authentication pattern')
-                          break
-                  for match in email.finditer(text):
-                      if match.group(1).lower() != 'example.com':
-                          findings.append(f'{file}: non-example.com email')
-                          break
-          if findings:
-              print('\n'.join(sorted(set(findings))))
-              sys.exit('Sanitization failed; report will not be published.')
-          print('Sanitization passed.')
-          PY
+      - name: Sanitize and verify report
+        run: node ./scripts/sanitize-allure-report.cjs publication/allure-report
 
       - name: Upload sanitized report
         uses: actions/upload-artifact@v4
