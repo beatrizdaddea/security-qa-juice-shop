@@ -28,14 +28,6 @@ jobs:
         image: bkimminich/juice-shop:v20.2.0
         ports:
           - 3000:3000
-        # The image's built-in check is unreliable on the Actions runner.
-        # This stable health state lets the runner start the service; the step
-        # below performs the real localhost readiness check.
-        options: >-
-          --health-cmd "exit 0"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
