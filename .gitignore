@@ -23,3 +23,10 @@ reports/*.html
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Playwright generated artifacts
+test-results/
+playwright-report/
+playwright/.auth/
+allure-results-playwright/
+allure-report-playwright/
