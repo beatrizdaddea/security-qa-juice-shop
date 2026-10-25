@@ -1,0 +1,296 @@
+name: Quality and Security
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: Execution profile
+        type: choice
+        options: [quick, full, nightly]
+        default: full
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  BASE_URL: http://localhost:3000
+  CI: '1'
+  PW_TRACE: retain-on-failure
+  PW_VIDEO: retain-on-failure
+  PW_SCREENSHOT: retain-on-failure
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      profile: ${{ steps.plan.outputs.profile }}
+      browsers: ${{ steps.plan.outputs.browsers }}
+      zap: ${{ steps.plan.outputs.zap }}
+      cache-date: ${{ steps.plan.outputs.cache-date }}
+    steps:
+      - id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_PROFILE: ${{ inputs.profile }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const profile = process.env.EVENT === 'schedule' ? 'nightly' : process.env.EVENT === 'pull_request' ? 'quick' : process.env.INPUT_PROFILE || 'full';
+          if (!['quick', 'full', 'nightly'].includes(profile)) throw new Error('Invalid profile');
+          const browsers = profile === 'nightly' ? ['chromium', 'firefox', 'webkit'] : ['chromium'];
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `profile=${profile}\nbrowsers=${JSON.stringify(browsers)}\nzap=${profile === 'nightly' ? 'zap-full' : 'zap-baseline'}\ncache-date=${new Date().toISOString().slice(0, 10)}\n`);
+          NODE
+
+  lint:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      QG_PROFILE: ${{ needs.prepare.outputs.profile }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/setup
+      - run: npm run ci:run -- lint
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: quality-lint
+          path: reports/ci/lint/
+          if-no-files-found: error
+          retention-days: 7
+
+  scanners:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        tool: [gitleaks, semgrep, sca]
+    env:
+      QG_PROFILE: ${{ needs.prepare.outputs.profile }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-node@v7
+        with: {node-version: '24'}
+      - uses: actions/cache@v5
+        if: matrix.tool == 'sca'
+        with:
+          path: .cache/trivy
+          key: ${{ runner.os }}-trivy-sca-${{ needs.prepare.outputs.cache-date }}
+          restore-keys: ${{ runner.os }}-trivy-sca-
+      - name: Run scanner in Docker
+        env:
+          SCANNER: ${{ matrix.tool }}
+        run: npm run ci:run -- "$SCANNER"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: quality-${{ matrix.tool }}
+          path: reports/ci/${{ matrix.tool }}/
+          if-no-files-found: error
+          retention-days: 7
+
+  playwright:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: ${{ fromJSON(needs.prepare.outputs.browsers) }}
+    env:
+      QG_PROFILE: ${{ needs.prepare.outputs.profile }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/setup
+        with: {browser: '${{ matrix.browser }}'}
+      - run: docker compose up -d --wait --wait-timeout 120 juice-shop
+      - name: Smoke on PR; regression on full/nightly
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: npm run ci:run -- playwright "$BROWSER"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: quality-playwright-${{ matrix.browser }}
+          path: reports/ci/playwright-${{ matrix.browser }}/
+          if-no-files-found: error
+          retention-days: 7
+      - if: always()
+        run: docker compose down
+
+  security:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      QG_PROFILE: ${{ needs.prepare.outputs.profile }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/setup
+        with: {browser: chromium}
+      - run: docker compose up -d --wait --wait-timeout 120 juice-shop
+      - run: npm run ci:run -- security
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: quality-security
+          path: reports/ci/security/
+          if-no-files-found: error
+          retention-days: 7
+      - if: always()
+        run: docker compose down
+
+  dast:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      QG_PROFILE: ${{ needs.prepare.outputs.profile }}
+      ZAP_JOB: ${{ needs.prepare.outputs.zap }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/setup
+        with: {browser: chromium}
+      - run: npm run sec:zap:up
+      - name: Seed ZAP using functional smoke
+        env:
+          ZAP_PROXY: http://localhost:8080
+          CI_REPORT_DIR: reports/ci/${{ env.ZAP_JOB }}/seed
+        run: node ./node_modules/@playwright/test/cli.js test --grep @smoke
+      - run: npm run sec:zap:verify-proxy
+      - name: Passive baseline or active nightly
+        run: npm run ci:run -- "$ZAP_JOB"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: quality-${{ env.ZAP_JOB }}
+          path: reports/ci/${{ env.ZAP_JOB }}/
+          if-no-files-found: error
+          retention-days: 7
+      - if: always()
+        run: docker compose down
+
+  cypress:
+    needs: prepare
+    if: needs.prepare.outputs.profile != 'quick'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      QG_PROFILE: ${{ needs.prepare.outputs.profile }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/setup
+        with: {cypress: 'true'}
+      - run: docker compose up -d --wait --wait-timeout 120 juice-shop
+      - run: npm run ci:run -- cypress
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: quality-cypress
+          path: reports/ci/cypress/
+          if-no-files-found: error
+          retention-days: 7
+      - if: always()
+        run: docker compose down
+
+  image:
+    needs: prepare
+    if: needs.prepare.outputs.profile != 'quick'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      QG_PROFILE: ${{ needs.prepare.outputs.profile }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v7
+        with: {node-version: '24'}
+      - uses: actions/cache@v5
+        with:
+          path: .cache/trivy
+          key: ${{ runner.os }}-trivy-image-${{ needs.prepare.outputs.cache-date }}
+          restore-keys: ${{ runner.os }}-trivy-image-
+      - run: docker pull bkimminich/juice-shop:latest
+      - run: npm run ci:run -- trivy-image
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: quality-trivy-image
+          path: reports/ci/trivy-image/
+          if-no-files-found: error
+          retention-days: 7
+
+  quality-gate:
+    if: always()
+    needs: [prepare, lint, scanners, playwright, security, dast, cypress, image]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      QG_PROFILE: ${{ needs.prepare.outputs.profile || 'quick' }}
+      QG_NEEDS_JSON: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - uses: ./.github/actions/setup
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: quality-*
+          path: .ci-artifacts
+      - name: Enforce current baseline and test outcomes; write job summary
+        if: always()
+        run: npm run quality:gate -- --reports .ci-artifacts
+      - name: Generate sanitized Allure report
+        if: always()
+        run: npm run ci:allure -- .ci-artifacts
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: quality-gate-summary
+          path: |
+            reports/quality-gate.json
+            reports/quality-gate.md
+            reports/ci/allure-report/
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v7
+        if: success()
+        with:
+          name: sanitized-allure-site
+          path: reports/ci/allure-report/
+          retention-days: 14
+
+  pages:
+    needs: quality-gate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with: {name: sanitized-allure-site, path: site}
+      - uses: actions/upload-pages-artifact@v3
+        with: {path: site}
+      - id: deployment
+        uses: actions/deploy-pages@v4
