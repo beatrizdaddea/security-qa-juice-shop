@@ -43,7 +43,7 @@ scripts/clean-playwright.cjs  cleans generated Playwright output before each run
 - **Test data**: generated per run (`utils/data.ts`); passwords are random, nothing credential-like is committed.
 - **Evidence**: `PW_TRACE`, `PW_VIDEO`, `PW_SCREENSHOT` accept `on | off | retain-on-failure`. Defaults: local `on`, CI (`CI` set) `retain-on-failure`. Playwright's screenshot option has no `retain-on-failure`, so it is mapped to `only-on-failure`.
 - **Retries/workers**: no retries locally (so flakiness is visible), `retries: 1` and 2 workers in CI.
-- **Scope guard**: `playwright.config.ts` throws if `BASE_URL` is not `localhost`/`127.0.0.1`.
+- **Scope guard**: `playwright.config.ts` requires exactly `http://localhost:3000`. Optional `ZAP_PROXY` routing (browser, API and global setup) is documented in [DAST.md](DAST.md).
 - **Browsers**: `chromium` always; `firefox` only with `PW_FIREFOX=1` (and `playwright install firefox`).
 - **Windows note**: this repository path contains `&`, which breaks `npx`/`.cmd` shims in `cmd.exe`. Scripts therefore call `node ./node_modules/@playwright/test/cli.js` directly (same approach as the Cypress scripts).
 - **CI**: not changed in this phase (the workflow still runs Cypress only). Adding Playwright to CI is a follow-up.
@@ -108,7 +108,7 @@ scripts/clean-playwright.cjs  limpa a saída gerada do Playwright antes de cada 
 - **Dados de teste**: gerados a cada execução (`utils/data.ts`); senhas aleatórias, nada parecido com credencial é versionado.
 - **Evidências**: `PW_TRACE`, `PW_VIDEO`, `PW_SCREENSHOT` aceitam `on | off | retain-on-failure`. Padrões: local `on`, CI (`CI` definido) `retain-on-failure`. A opção de screenshot do Playwright não tem `retain-on-failure`, então é mapeada para `only-on-failure`.
 - **Retries/workers**: sem retries localmente (para expor instabilidade), `retries: 1` e 2 workers no CI.
-- **Trava de escopo**: `playwright.config.ts` lança erro se `BASE_URL` não for `localhost`/`127.0.0.1`.
+- **Trava de escopo**: `playwright.config.ts` exige exatamente `http://localhost:3000`. O encaminhamento opcional por `ZAP_PROXY` (navegador, API e setup global) está documentado em [DAST.md](DAST.md).
 - **Navegadores**: `chromium` sempre; `firefox` só com `PW_FIREFOX=1` (e `playwright install firefox`).
 - **Nota Windows**: o caminho deste repositório contém `&`, o que quebra `npx`/shims `.cmd` no `cmd.exe`. Por isso os scripts chamam `node ./node_modules/@playwright/test/cli.js` diretamente (mesma abordagem dos scripts do Cypress).
 - **CI**: não alterado nesta fase (o workflow ainda roda só Cypress). Incluir o Playwright no CI é um próximo passo.

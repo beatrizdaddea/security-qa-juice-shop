@@ -57,13 +57,15 @@ The template in [docs/execution-report.md](docs/execution-report.md) does not ye
 
 ### ZAP baseline
 
-With Juice Shop running, execute:
+Start the local DAST stack and run the passive baseline:
 
 ```bash
-bash scripts/zap-baseline.sh
+npm run sec:zap:up
+npm run sec:zap:baseline
+npm run sec:zap:report
 ```
 
-The script accepts only `http://localhost:3000` and writes `reports/zap-baseline.html`. In the report, review **FAIL** alerts first, then **WARN** alerts. Confirm each alert manually, distinguish application vulnerabilities from scanner noise, map confirmed findings to OWASP/CWE, and create a bug file only after reproduction. ZAP may return a non-zero exit code when alerts are found; this does not mean the HTML report failed to generate.
+The daemon accepts only `http://localhost:3000` as scan target and exports HTML, JSON and SARIF to `reports/security/zap/`. See [docs/DAST.md](docs/DAST.md) for proxy-fed Playwright, justified rule exceptions, nightly active scanning and cleanup.
 
 ### Key learnings
 
@@ -131,13 +133,15 @@ O template em [docs/execution-report.md](docs/execution-report.md) ainda não co
 
 ### ZAP baseline
 
-Com o Juice Shop em execução, use:
+Suba a stack DAST local e execute o baseline passivo:
 
 ```bash
-bash scripts/zap-baseline.sh
+npm run sec:zap:up
+npm run sec:zap:baseline
+npm run sec:zap:report
 ```
 
-O script aceita apenas `http://localhost:3000` e grava `reports/zap-baseline.html`. No relatório, analise primeiro os alertas **FAIL** e depois os **WARN**. Confirme cada alerta manualmente, diferencie vulnerabilidades da aplicação de ruído do scanner, mapeie achados confirmados para OWASP/CWE e crie um bug somente após reproduzi-lo. O ZAP pode retornar código diferente de zero quando encontra alertas; isso não significa que o HTML deixou de ser gerado.
+O daemon aceita somente `http://localhost:3000` como alvo e exporta HTML, JSON e SARIF para `reports/security/zap/`. Consulte [docs/DAST.md](docs/DAST.md) para Playwright pelo proxy, exceções justificadas, scan ativo noturno e limpeza.
 
 ### Principais aprendizados
 
