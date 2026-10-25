@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { zapProxyOptions } from "./utils/zap-proxy";
 
 try { process.loadEnvFile(); } catch { /* Optional local configuration. / Configuração local opcional. */ }
 
@@ -29,6 +30,7 @@ export default defineConfig({
   ],
   use: {
     baseURL: SECURITY_TARGET,
+    ...zapProxyOptions(),
     // Sanitized HTTP/DOM evidence is attached explicitly. / Evidência HTTP/DOM sanitizada anexada explicitamente.
     trace: "off", video: "off", screenshot: "off",
     serviceWorkers: "block",

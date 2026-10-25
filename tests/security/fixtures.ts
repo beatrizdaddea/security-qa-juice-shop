@@ -2,6 +2,7 @@ import { test as base, expect, type APIRequestContext, type APIResponse, type Te
 import * as allure from "allure-js-commons";
 import { newTestUser, SECURITY_ANSWER, SECURITY_QUESTION, type TestUser } from "../../utils/data";
 import { categories, securityCase } from "./catalog";
+import { zapProxyOptions } from "../../utils/zap-proxy";
 
 export const TARGET = "http://localhost:3000";
 export const denied = (status: number): boolean => [401, 403, 404].includes(status);
@@ -80,7 +81,7 @@ interface Fixtures {
 
 export const test = base.extend<Fixtures>({
   api: async ({ playwright }, use, info) => {
-    const request = await playwright.request.newContext({ baseURL: TARGET });
+    const request = await playwright.request.newContext({ baseURL: TARGET, ...zapProxyOptions() });
     await use(new SecurityApi(request, info));
     await request.dispose();
   },

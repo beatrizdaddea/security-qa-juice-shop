@@ -4,6 +4,7 @@ import { dirname } from "node:path";
 import { loginUser, registerUser } from "../utils/api";
 import { newTestUser } from "../utils/data";
 import { AUTH_FILE, BID_STORAGE_KEY } from "./constants";
+import { zapProxyOptions } from "../utils/zap-proxy";
 
 /**
  * Creates one throwaway user through the API and writes a Playwright
@@ -14,7 +15,7 @@ import { AUTH_FILE, BID_STORAGE_KEY } from "./constants";
  */
 export default async function globalSetup(config: FullConfig): Promise<void> {
   const baseURL = config.projects[0].use.baseURL as string;
-  const api = await request.newContext({ baseURL });
+  const api = await request.newContext({ baseURL, ...zapProxyOptions() });
   const user = newTestUser("pw-shared");
 
   await registerUser(api, user);

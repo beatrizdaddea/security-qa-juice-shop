@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { zapProxyOptions } from "./utils/zap-proxy";
 
 // Optional local overrides (.env is git-ignored; see .env.example).
 try {
@@ -9,11 +10,10 @@ try {
 
 const DEFAULT_TARGET = "http://localhost:3000";
 const BASE_URL = process.env.BASE_URL ?? DEFAULT_TARGET;
-const ALLOWED_HOSTS = ["localhost", "127.0.0.1"];
 
 // Project rule: security tests may only target the local Juice Shop.
-if (!ALLOWED_HOSTS.includes(new URL(BASE_URL).hostname)) {
-  throw new Error(`BASE_URL must point to localhost (received ${BASE_URL}).`);
+if (BASE_URL !== DEFAULT_TARGET) {
+  throw new Error(`BASE_URL must be exactly ${DEFAULT_TARGET}.`);
 }
 
 const isCI = Boolean(process.env.CI);
@@ -56,6 +56,8 @@ export default defineConfig({
   ],
   use: {
     baseURL: BASE_URL,
+    ...zapProxyOptions(),
+    serviceWorkers: "block",
     trace: evidence("PW_TRACE"),
     video: evidence("PW_VIDEO"),
     screenshot: screenshot === "retain-on-failure" ? "only-on-failure" : screenshot,
