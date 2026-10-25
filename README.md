@@ -1,5 +1,11 @@
 # Security QA — OWASP Juice Shop
 
+## Playwright security / Segurança com Playwright
+
+Run `npm run pw:security` for the 20 OWASP-mapped security checks; generate their separate Allure report in Docker with `npm run pw:security:allure`. See [the security matrix and execution instructions](docs/SECURITY-TESTS.md) for actual results, known vulnerabilities and scope limits.
+
+Execute `npm run pw:security` para as 20 verificações de segurança mapeadas ao OWASP; gere o relatório Allure separado em Docker com `npm run pw:security:allure`. Consulte [a matriz de segurança e as instruções de execução](docs/SECURITY-TESTS.md) para resultados reais, vulnerabilidades conhecidas e limites de escopo.
+
 ## English
 
 ### Project summary
