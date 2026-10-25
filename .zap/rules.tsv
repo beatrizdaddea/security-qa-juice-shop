@@ -1,0 +1,9 @@
+# Rule ID\tPolicy\tEnglish justification\tJustificativa PT-BR
+# Default: FAIL for medium/high, WARN for low/informational. IGNORE affects the gate only; native reports retain findings.
+# Padrão: FAIL para média/alta, WARN para baixa/informativa. IGNORE afeta somente o gate; relatórios nativos preservam achados.
+10035	IGNORE	HSTS cannot enforce HTTPS on this deliberately HTTP-only localhost lab; revisit for HTTPS.	HSTS não impõe HTTPS neste laboratório localhost propositalmente HTTP; reavaliar em HTTPS.
+10038	WARN	Missing CSP is an intentional Juice Shop weakness tracked by TC-023; retain the finding.	CSP ausente é fraqueza intencional do Juice Shop rastreada por TC-023; preservar o achado.
+10055	WARN	CSP absence/unsafe directives are intentional lab behavior covered by TC-023.	Ausência/diretivas inseguras de CSP são comportamento intencional coberto por TC-023.
+10098	WARN	Cross-origin policy weakness is an intentional lab finding covered by TC-028.	Fraqueza da política entre origens é achado intencional coberto por TC-028.
+10011	WARN	JavaScript-created token cookie lacks HttpOnly, reproduced by TC-035; do not suppress evidence.	Cookie de token criado por JavaScript sem HttpOnly, reproduzido por TC-035; não suprimir evidência.
+10010	WARN	Session cookie lacks Secure on the local HTTP lab, reproduced by TC-035.	Cookie de sessão sem Secure no laboratório HTTP local, reproduzido por TC-035.

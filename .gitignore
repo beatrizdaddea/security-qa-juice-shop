@@ -11,6 +11,7 @@ evidence/screenshots/
 allure-results/
 allure-report/
 reports/*.html
+reports/security/zap/
 
 # Logs and local environment files
 *.log

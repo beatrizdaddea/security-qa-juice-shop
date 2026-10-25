@@ -1,0 +1,10 @@
+{
+  "name": "juice-shop-local-only",
+  "target": "http://localhost:3000",
+  "include": "^http://localhost:3000(?:/.*)?$",
+  "exclude": [
+    "^(?!http://localhost:3000(?:/|$)).*$",
+    "^http://localhost:3000/(?:redirect|rest/user/logout|rest/user/reset-password)(?:[/?].*)?$",
+    "^http://localhost:3000/socket[.]io(?:/.*)?$"
+  ]
+}
