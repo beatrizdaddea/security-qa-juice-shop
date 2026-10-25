@@ -5,3 +5,11 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
+  allure-security:
+    image: eclipse-temurin:17-jre
+    profiles: [security]
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    entrypoint: [java]
+    command: ["-classpath", "/workspace/node_modules/allure-commandline/dist/lib/*:/workspace/node_modules/allure-commandline/dist/lib/config", "io.qameta.allure.CommandLine", "generate", "allure-results-security", "--clean", "-o", "allure-report-security"]

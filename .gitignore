@@ -30,3 +30,6 @@ playwright-report/
 playwright/.auth/
 allure-results-playwright/
 allure-report-playwright/
+allure-results-security/
+allure-report-security/
+playwright-report-security/
