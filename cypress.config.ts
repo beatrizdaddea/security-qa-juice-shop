@@ -4,11 +4,13 @@ import { copyFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 const LOCAL_TARGET = "http://localhost:3000";
+const evidenceRoot = process.env.CI_REPORT_DIR;
+const allureResults = evidenceRoot ? join(evidenceRoot, "allure-results") : "allure-results";
 
 export default defineConfig({
-  screenshotsFolder: "cypress/screenshots",
+  screenshotsFolder: evidenceRoot ? join(evidenceRoot, "screenshots") : "cypress/screenshots",
   screenshotOnRunFailure: true,
-  videosFolder: "cypress/videos",
+  videosFolder: evidenceRoot ? join(evidenceRoot, "videos") : "cypress/videos",
   video: true,
   e2e: {
     baseUrl: LOCAL_TARGET,
@@ -20,7 +22,7 @@ export default defineConfig({
       }
 
       allureCypress(on, config, {
-        resultsDir: "allure-results",
+        resultsDir: allureResults,
         environmentInfo: {
           app: "OWASP Juice Shop",
           "app.version": "20.2.0",
@@ -30,7 +32,7 @@ export default defineConfig({
       });
 
       on("before:run", () => {
-        const resultsDir = join(__dirname, "allure-results");
+        const resultsDir = allureResults;
 
         mkdirSync(resultsDir, { recursive: true });
         copyFileSync(join(__dirname, "allure", "categories.json"), join(resultsDir, "categories.json"));

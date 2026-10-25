@@ -1,0 +1,48 @@
+rules:
+  - id: qe.dynamic-eval
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Dynamic eval can execute untrusted code. / Eval dinâmico pode executar código não confiável.
+    metadata: {security-severity: "9.0", owasp: "A03:2021"}
+    pattern-either:
+      - pattern: eval($INPUT)
+      - pattern: new Function(...)
+  - id: qe.shell-command
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Review shell execution; use argv-based execution. / Revise execução via shell; use argumentos separados.
+    metadata: {security-severity: "8.0", owasp: "A03:2021"}
+    pattern-either:
+      - pattern: $CP.exec($CMD, ...)
+      - pattern: $CP.execSync($CMD, ...)
+      - pattern: exec($CMD, ...)
+      - pattern: execSync($CMD, ...)
+  - id: qe.disable-tls-verification
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Global TLS verification must remain enabled. / A verificação TLS global deve permanecer habilitada.
+    metadata: {security-severity: "7.5", owasp: "A02:2021"}
+    pattern: process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+  - id: qe.shell-true
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Shell interpolation is forbidden in process launchers. / Interpolação via shell é proibida nos inicializadores.
+    metadata: {security-severity: "8.0", owasp: "A03:2021"}
+    pattern: '$RUN(..., { ..., shell: true, ... })'
+  - id: qe.python-shell
+    languages: [python]
+    severity: ERROR
+    message: Use subprocess with an argument array. / Use subprocess com lista de argumentos.
+    metadata: {security-severity: "8.0", owasp: "A03:2021"}
+    pattern-either:
+      - pattern: subprocess.run(..., shell=True, ...)
+      - pattern: subprocess.Popen(..., shell=True, ...)
+      - pattern: os.system(...)
+  - id: qe.python-unsafe-deserialization
+    languages: [python]
+    severity: ERROR
+    message: Untrusted deserialization may execute code. / Desserialização não confiável pode executar código.
+    metadata: {security-severity: "8.0", owasp: "A08:2021"}
+    pattern-either:
+      - pattern: pickle.loads(...)
+      - pattern: yaml.unsafe_load(...)

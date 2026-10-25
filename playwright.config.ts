@@ -36,6 +36,7 @@ export default defineConfig({
   testMatch: "**/*.spec.ts",
   globalSetup: "./fixtures/global-setup.ts",
   outputDir: "test-results",
+  ...(process.env.CI_REPORT_DIR ? { outputDir: `${process.env.CI_REPORT_DIR}/test-results` } : {}),
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 1 : 0,
@@ -44,11 +45,12 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   reporter: [
     ["list"],
-    ["html", { outputFolder: "playwright-report", open: "never" }],
+    ["html", { outputFolder: process.env.CI_REPORT_DIR ? `${process.env.CI_REPORT_DIR}/playwright-report` : "playwright-report", open: "never" }],
+    ["json", { outputFile: process.env.CI_REPORT_DIR ? `${process.env.CI_REPORT_DIR}/report.json` : "test-results/playwright-results.json" }],
     [
       "allure-playwright",
       {
-        resultsDir: "allure-results-playwright",
+        resultsDir: process.env.CI_REPORT_DIR ? `${process.env.CI_REPORT_DIR}/allure-results` : "allure-results-playwright",
         detail: true,
         environmentInfo: { app: "OWASP Juice Shop", url: BASE_URL },
       },
@@ -64,7 +66,12 @@ export default defineConfig({
     actionTimeout: 10_000,
     navigationTimeout: 15_000,
   },
-  projects: [
+  projects: process.env.PW_BROWSER ? (() => {
+    const browsers = { chromium: "Desktop Chrome", firefox: "Desktop Firefox", webkit: "Desktop Safari" } as const;
+    const browser = process.env.PW_BROWSER as keyof typeof browsers;
+    if (!(browser in browsers)) throw new Error("PW_BROWSER must be chromium, firefox or webkit.");
+    return [{ name: browser, use: { ...devices[browsers[browser]] } }];
+  })() : [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
     // Optional: PW_FIREFOX=1 (requires `playwright install firefox`).
     ...(process.env.PW_FIREFOX === "1"

@@ -3,7 +3,7 @@ import { newTestUser } from "../../utils/data";
 import { AUTH_FILE, expect, test } from "../../fixtures";
 
 test.describe("Functional baseline (Playwright PoC)", () => {
-  test("TC-001 valid login", async ({ page, loginPage, user }) => {
+  test("TC-001 valid login", { tag: "@smoke" }, async ({ page, loginPage, user }) => {
     await addMetadata("Functional Baseline", "critical", "Functional");
 
     await test.step("Submit valid credentials through the login page", async () => {
@@ -32,7 +32,7 @@ test.describe("Functional baseline (Playwright PoC)", () => {
     });
   });
 
-  test("TC-003 product search", async ({ productsPage }) => {
+  test("TC-003 product search", { tag: "@smoke" }, async ({ productsPage }) => {
     await addMetadata("Functional Baseline", "normal", "Functional");
 
     await productsPage.goto();
@@ -50,7 +50,7 @@ test.describe("Functional baseline (Playwright PoC)", () => {
 test.describe("Authenticated flows (storageState)", () => {
   test.use({ storageState: AUTH_FILE });
 
-  test("TC-004 add product to basket", async ({ productsPage, basketPage }) => {
+  test("TC-004 add product to basket", { tag: "@smoke" }, async ({ productsPage, basketPage }) => {
     await addMetadata("Functional Baseline", "critical", "Functional");
     const product = "Apple Juice (1000ml)";
 

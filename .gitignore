@@ -12,6 +12,10 @@ allure-results/
 allure-report/
 reports/*.html
 reports/security/zap/
+reports/ci/
+.ci-artifacts/
+.cache/
+reports/quality-gate*
 
 # Logs and local environment files
 *.log

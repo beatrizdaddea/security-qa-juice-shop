@@ -12,6 +12,7 @@ export default defineConfig({
   testDir: "./tests/security",
   testMatch: "**/*.spec.ts",
   outputDir: "test-results/security",
+  ...(process.env.CI_REPORT_DIR ? { outputDir: `${process.env.CI_REPORT_DIR}/test-results` } : {}),
   fullyParallel: true,
   workers: 2,
   retries: 0,
@@ -20,10 +21,10 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   reporter: [
     ["list"],
-    ["html", { outputFolder: "playwright-report-security", open: "never" }],
-    ["json", { outputFile: "test-results/security-results.json" }],
+    ["html", { outputFolder: process.env.CI_REPORT_DIR ? `${process.env.CI_REPORT_DIR}/playwright-report` : "playwright-report-security", open: "never" }],
+    ["json", { outputFile: process.env.CI_REPORT_DIR ? `${process.env.CI_REPORT_DIR}/report.json` : "test-results/security-results.json" }],
     ["allure-playwright", {
-      resultsDir: "allure-results-security", detail: false, suiteTitle: false,
+      resultsDir: process.env.CI_REPORT_DIR ? `${process.env.CI_REPORT_DIR}/allure-results` : "allure-results-security", detail: false, suiteTitle: false,
       environmentInfo: { app: "OWASP Juice Shop", url: SECURITY_TARGET },
     }],
     ["./scripts/security-reporter.ts"],
