@@ -162,14 +162,16 @@ O daemon aceita somente `http://localhost:3000` como alvo e exporta HTML, JSON e
 
 Published report: **[View the live Allure report](https://beatrizdaddea.github.io/security-qa-juice-shop/)**
 
-The publication workflow is `.github/workflows/allure-pages.yml`. It runs on pushes to `main` or by manual dispatch, tests only the pinned Juice Shop image against `http://localhost:3000`, sanitizes the generated report, and deploys only when both jobs pass. Read [docs/publication-policy.md](docs/publication-policy.md) before publishing.
+The unified workflow is `.github/workflows/quality-security.yml`. It runs quality and security checks on PRs, pushes, manual dispatch and a nightly schedule. Public Allure deployment occurs only on successful pushes to `main`, after the quality gate and report sanitization. Application tests target only `http://localhost:3000`. Read [docs/CI.md](docs/CI.md) for profiles, exact exceptions, expiry and local gate verification, and [docs/publication-policy.md](docs/publication-policy.md) before publishing.
 
-To enable Pages manually: open **Settings → Pages**, choose **Source: GitHub Actions**, review the `github-pages` environment, then run the workflow manually or push to `main`. To unpublish, disable or remove the Pages deployment and cancel any running workflow.
+To enable Pages: open **Settings → Pages**, choose **Source: GitHub Actions**, review the `github-pages` environment, then push to `main`. Manual workflow runs validate quality and security without publishing. To unpublish, disable or remove the Pages deployment and cancel any running workflow.
 
 ### Português (PT-BR)
 
 Relatório publicado: **[Acessar o relatório Allure](https://beatrizdaddea.github.io/security-qa-juice-shop/)**
 
-O workflow está em `.github/workflows/allure-pages.yml`. Ele testa somente a imagem fixada do Juice Shop contra `http://localhost:3000`, sanitiza o relatório e publica apenas quando os jobs passam. Para habilitar: abra **Settings → Pages**, escolha **Source: GitHub Actions**, revise o ambiente `github-pages` e execute o workflow. Para despublicar, desabilite ou remova o deployment do Pages e cancele workflows em execução.
+O workflow unificado está em `.github/workflows/quality-security.yml`. Ele executa qualidade e segurança em PRs, pushes, disparo manual e agendamento noturno. A publicação pública do Allure ocorre somente em pushes aprovados na `main`, após o quality gate e a sanitização do relatório. Os testes da aplicação apontam somente para `http://localhost:3000`. Consulte [docs/CI.md](docs/CI.md) para perfis, exceções exatas, vencimento e verificação local do gate.
+
+Para habilitar o Pages: abra **Settings → Pages**, escolha **Source: GitHub Actions**, revise o ambiente `github-pages` e faça push na `main`. Execuções manuais validam qualidade e segurança sem publicar. Para despublicar, desabilite ou remova o deployment do Pages e cancele workflows em execução.
 
 Consulte [docs/publication-policy.md](docs/publication-policy.md); nunca publique segredos, tokens, cookies, e-mails reais, logs brutos ou mídias proibidas.

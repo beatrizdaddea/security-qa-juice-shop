@@ -36,7 +36,7 @@ A busca reflete o fragmento da URL no DOM nesta versão (XSS baseado em DOM), em
 
 ## Latest full execution / Última execução completa
 
-Completed / Concluída: 2026-10-25T20:03:45.761Z. Runner status / Status da execução: **passed**.
+Completed / Concluída: 2026-10-25T20:24:07.238Z. Runner status / Status da execução: **passed**.
 
 This matrix and the detailed cases below are generated from tests/security/catalog.ts and actual Playwright results by scripts/security-reporter.ts. Full runs validate IDs, titles, tags and annotations; filtered runs leave this document unchanged. Generated machine-readable results: test-results/security-results.json.
 Esta matriz e os casos detalhados abaixo são gerados a partir de tests/security/catalog.ts e resultados reais do Playwright por scripts/security-reporter.ts. Execuções completas validam IDs, títulos, tags e anotações; execuções filtradas mantêm este documento. Resultados gerados para leitura automatizada: test-results/security-results.json.
@@ -126,8 +126,8 @@ Justificativa known-vuln: API de usuários expõe dados a cliente comum (BUG-TC-
    **Passos:** Confirme que B consulta sua cesta; consulte essa mesma cesta com o token de A.
 5. **Expected result:** A receives 401/403/404 and no basket data.
    **Resultado esperado:** A recebe 401/403/404 e nenhum dado da cesta.
-6. **Actual result:** Observed: `{"status":200,"ownerBasket":12,"returnedBasket":12}`.
-   **Resultado obtido:** Observado: `{"status":200,"ownerBasket":12,"returnedBasket":12}`.
+6. **Actual result:** Observed: `{"status":200,"ownerBasket":10,"returnedBasket":10}`.
+   **Resultado obtido:** Observado: `{"status":200,"ownerBasket":10,"returnedBasket":10}`.
 7. **Status:** Known vulnerability (expected failure) / Vulnerabilidade conhecida (falha esperada)
    **Status:** Known vulnerability (expected failure) / Vulnerabilidade conhecida (falha esperada)
 8. **Severity:** critical
@@ -456,8 +456,8 @@ Justificativa known-vuln: API aceita 12345 com HTTP 201 e a conta consegue entra
    **Passos:** Entre pela interface sem injetar estado de autenticação; inspecione flags reais do cookie de token e armazenamento acessível por script.
 5. **Expected result:** Session cookie is HttpOnly, Secure, SameSite=Lax/Strict; token is not in localStorage. Secure is a header/storage baseline on HTTP localhost.
    **Resultado esperado:** Cookie de sessão com HttpOnly, Secure, SameSite=Lax/Strict; token fora do localStorage. Secure é baseline de header/armazenamento em localhost HTTP.
-6. **Actual result:** Observed: `{"httpOnly":false,"secure":false,"sameSite":"Lax","expires":1792987423,"scriptReadableToken":true}`.
-   **Resultado obtido:** Observado: `{"httpOnly":false,"secure":false,"sameSite":"Lax","expires":1792987423,"scriptReadableToken":true}`.
+6. **Actual result:** Observed: `{"httpOnly":false,"secure":false,"sameSite":"Lax","expires":1792988642,"scriptReadableToken":true}`.
+   **Resultado obtido:** Observado: `{"httpOnly":false,"secure":false,"sameSite":"Lax","expires":1792988642,"scriptReadableToken":true}`.
 7. **Status:** Known vulnerability (expected failure) / Vulnerabilidade conhecida (falha esperada)
    **Status:** Known vulnerability (expected failure) / Vulnerabilidade conhecida (falha esperada)
 8. **Severity:** critical
@@ -480,8 +480,8 @@ Justificativa known-vuln: Login real pela interface cria cookie de token sem Htt
    **Passos:** Entre; decodifique somente claims de tempo do JWT e compare exp/iat ao baseline de uma hora da suíte.
 5. **Expected result:** Numeric iat/exp, token currently valid, lifetime > 0 and <= 3600 seconds.
    **Resultado esperado:** iat/exp numéricos, token válido no momento, validade > 0 e <= 3600 segundos.
-6. **Actual result:** Observed: `{"iat":1792958624,"exp":"missing / ausente","lifetimeSeconds":"unbounded / ilimitada","maximumLifetimeSeconds":3600}`.
-   **Resultado obtido:** Observado: `{"iat":1792958624,"exp":"missing / ausente","lifetimeSeconds":"unbounded / ilimitada","maximumLifetimeSeconds":3600}`.
+6. **Actual result:** Observed: `{"iat":1792959842,"exp":"missing / ausente","lifetimeSeconds":"unbounded / ilimitada","maximumLifetimeSeconds":3600}`.
+   **Resultado obtido:** Observado: `{"iat":1792959842,"exp":"missing / ausente","lifetimeSeconds":"unbounded / ilimitada","maximumLifetimeSeconds":3600}`.
 7. **Status:** Known vulnerability (expected failure) / Vulnerabilidade conhecida (falha esperada)
    **Status:** Known vulnerability (expected failure) / Vulnerabilidade conhecida (falha esperada)
 8. **Severity:** normal
@@ -504,8 +504,8 @@ Justificativa known-vuln: JWT de login não possui exp neste container Juice Sho
    **Passos:** Dentro do container use authorize do aplicativo para assinar controle válido e token expirado deste cliente; verifique ambas as assinaturas, aceite o controle na cesta do cliente e envie o token expirado.
 5. **Expected result:** Fresh signed control returns 200; expired signed token returns 401/403.
    **Resultado esperado:** Controle assinado válido retorna 200; token assinado expirado retorna 401/403.
-6. **Actual result:** Observed: `{"controlStatus":200,"expiredStatus":401,"expiredAt":1792958564,"signatureVerified":true}`.
-   **Resultado obtido:** Observado: `{"controlStatus":200,"expiredStatus":401,"expiredAt":1792958564,"signatureVerified":true}`.
+6. **Actual result:** Observed: `{"controlStatus":200,"expiredStatus":401,"expiredAt":1792959783,"signatureVerified":true}`.
+   **Resultado obtido:** Observado: `{"controlStatus":200,"expiredStatus":401,"expiredAt":1792959783,"signatureVerified":true}`.
 7. **Status:** Secure control passed / Controle seguro aprovado
    **Status:** Secure control passed / Controle seguro aprovado
 8. **Severity:** critical

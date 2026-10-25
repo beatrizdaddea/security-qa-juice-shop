@@ -46,7 +46,7 @@ scripts/clean-playwright.cjs  cleans generated Playwright output before each run
 - **Scope guard**: `playwright.config.ts` requires exactly `http://localhost:3000`. Optional `ZAP_PROXY` routing (browser, API and global setup) is documented in [DAST.md](DAST.md).
 - **Browsers**: `chromium` always; `firefox` only with `PW_FIREFOX=1` (and `playwright install firefox`).
 - **Windows note**: this repository path contains `&`, which breaks `npx`/`.cmd` shims in `cmd.exe`. Scripts therefore call `node ./node_modules/@playwright/test/cli.js` directly (same approach as the Cypress scripts).
-- **CI**: not changed in this phase (the workflow still runs Cypress only). Adding Playwright to CI is a follow-up.
+- **CI**: now integrated alongside Cypress in the unified quality/security workflow. See [CI.md](CI.md) for PR smoke, security, full regression and nightly browser profiles.
 
 ## How to run
 
@@ -111,7 +111,7 @@ scripts/clean-playwright.cjs  limpa a saída gerada do Playwright antes de cada 
 - **Trava de escopo**: `playwright.config.ts` exige exatamente `http://localhost:3000`. O encaminhamento opcional por `ZAP_PROXY` (navegador, API e setup global) está documentado em [DAST.md](DAST.md).
 - **Navegadores**: `chromium` sempre; `firefox` só com `PW_FIREFOX=1` (e `playwright install firefox`).
 - **Nota Windows**: o caminho deste repositório contém `&`, o que quebra `npx`/shims `.cmd` no `cmd.exe`. Por isso os scripts chamam `node ./node_modules/@playwright/test/cli.js` diretamente (mesma abordagem dos scripts do Cypress).
-- **CI**: não alterado nesta fase (o workflow ainda roda só Cypress). Incluir o Playwright no CI é um próximo passo.
+- **CI**: integrado junto ao Cypress no workflow unificado de qualidade/segurança. Consulte [CI.md](CI.md) para smoke em PR, segurança, regressão completa e perfis noturnos de navegadores.
 
 ## Como executar
 
