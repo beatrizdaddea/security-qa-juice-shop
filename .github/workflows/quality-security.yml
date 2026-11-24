@@ -2,6 +2,7 @@ name: Quality and Security
 
 on:
   pull_request:
+    branches: [main]
   push:
     branches: [main]
   schedule:
@@ -176,7 +177,8 @@ jobs:
       - run: npm run sec:zap:verify-proxy
       - name: Passive baseline or active nightly
         run: npm run ci:run -- "$ZAP_JOB"
-      - uses: actions/upload-artifact@v7
+      - name: Upload ZAP reports and SARIF
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: quality-${{ env.ZAP_JOB }}
@@ -229,7 +231,8 @@ jobs:
           restore-keys: ${{ runner.os }}-trivy-image-
       - run: docker pull bkimminich/juice-shop:latest
       - run: npm run ci:run -- trivy-image
-      - uses: actions/upload-artifact@v7
+      - name: Upload Trivy report and CycloneDX SBOM
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: quality-trivy-image
@@ -259,29 +262,30 @@ jobs:
       - name: Generate sanitized Allure report
         if: always()
         run: npm run ci:allure -- .ci-artifacts
-      - uses: actions/upload-artifact@v7
+      - name: Upload quality gate summary
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: quality-gate-summary
           path: |
             reports/quality-gate.json
             reports/quality-gate.md
-            reports/ci/allure-report/
           if-no-files-found: error
           retention-days: 14
-      - uses: actions/upload-artifact@v7
+      - name: Upload sanitized Allure site
+        uses: actions/upload-artifact@v7
         if: success()
         with:
           name: sanitized-allure-site
           path: reports/ci/allure-report/
+          if-no-files-found: error
           retention-days: 14
 
   pages:
     needs: quality-gate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.PUBLISH_ALLURE_PAGES == 'true'
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       pages: write
       id-token: write
     environment:

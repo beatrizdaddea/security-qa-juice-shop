@@ -8,7 +8,7 @@
 
 | Profile / Perfil | Trigger / Gatilho | Required producers / Produtores obrigatórios |
 | --- | --- | --- |
-| `quick` | Pull request / Solicitação de alteração | Lint + actionlint, Gitleaks, Semgrep, Trivy SCA, Chromium smoke (4), Playwright `@security` (20), ZAP baseline (7 jobs) / mesmos 7 jobs |
+| `quick` | Pull request targeting `main`; manual / Solicitação de alteração para `main`; manual | Lint + actionlint, Gitleaks, Semgrep, Trivy SCA, Chromium smoke (4), Playwright `@security` (20), ZAP baseline (7 jobs) / mesmos 7 jobs |
 | `full` | Push to `main`; manual default / Push na `main`; padrão manual | Quick checks with all 5 functional Playwright cases; Cypress (17), Trivy image + CycloneDX SBOM (9 jobs) / Verificações rápidas com os 5 casos funcionais completos; Cypress (17), Trivy da imagem + SBOM CycloneDX (9 jobs) |
 | `nightly` | Daily `04:00 UTC` (`01:00` São Paulo); manual / Diário `04:00 UTC` (`01:00` São Paulo); manual | Full regression, Chromium + Firefox + WebKit, ZAP full instead of baseline (11 jobs) / Regressão completa, Chromium + Firefox + WebKit, ZAP full no lugar do baseline (11 jobs) |
 
@@ -26,9 +26,13 @@
 
 **PT-BR:** Cada produtor grava relatórios nativos e `job.json` em `reports/ci/<job>/`. Artefatos `quality-*` preservam esses relatórios, entradas Allure, screenshots, vídeos e traces Playwright por 7 dias. O artefato da imagem inclui `sbom.cdx.json`; o ZAP inclui HTML, JSON e SARIF. O job DAST alimenta tráfego smoke por `ZAP_PROXY=http://localhost:8080`, verifica a cobertura do proxy e então faz o scan. Os relatórios são reunidos em `.ci-artifacts/` preservando os diretórios. Nenhum `.env`, estado de autenticação ou arquivo de imagem é enviado.
 
-**EN:** The gate writes JSON and bilingual Markdown to `reports/quality-gate.*`, appends the verdict to the GitHub job summary and retains the aggregate sanitized Allure HTML for 14 days. Raw evidence remains in restricted CI artifacts; public Allure removes attachments/media and sanitizes sensitive values according to [publication-policy.md](publication-policy.md). Pages deployment is preserved only for successful pushes to `main`, after the gate and sanitization. Pages write permissions exist only in that deployment job. PRs do not publish a public site or require a write token/comment.
+**EN:** The gate appends its verdict to the GitHub job summary and uploads `reports/quality-gate.json` and `reports/quality-gate.md` as `quality-gate-summary`, including when the gate rejects the run. Successful runs upload `sanitized-allure-site` after report generation and sanitization pass. Both artifacts are retained for 14 days. SARIF is available in the ZAP artifact for each profile. The workflow token defaults to `contents: read`.
 
-**PT-BR:** O gate grava JSON e Markdown bilíngue em `reports/quality-gate.*`, adiciona o resultado ao resumo do job GitHub e preserva o HTML Allure agregado e sanitizado por 14 dias. A evidência bruta permanece nos artefatos restritos do CI; o Allure público remove anexos/mídia e sanitiza valores sensíveis conforme [publication-policy.md](publication-policy.md). O deploy do Pages foi preservado somente para pushes aprovados na `main`, após o gate e a sanitização. Permissões de escrita no Pages existem somente nesse job de deploy. PRs não publicam um site público nem exigem token de escrita/comentário.
+**PT-BR:** O gate adiciona seu resultado ao resumo do job GitHub e envia `reports/quality-gate.json` e `reports/quality-gate.md` no artefato `quality-gate-summary`, inclusive quando o gate reprova a execução. Execuções aprovadas enviam `sanitized-allure-site` depois que a geração e a sanitização do relatório passam. Ambos os artefatos ficam disponíveis por 14 dias. O SARIF fica no artefato do ZAP de cada perfil. O token padrão do workflow tem `contents: read`.
+
+**EN:** To enable public deployment, select **GitHub Actions** in **Settings → Pages**, review the `github-pages` environment, and set `PUBLISH_ALLURE_PAGES=true` in the repository's Actions variables. This enables the Pages job on successful pushes to `main`. Only that job has `pages: write` and `id-token: write`. Follow the [Allure publication policy](publication-policy.md).
+
+**PT-BR:** Para habilitar a publicação pública, selecione **GitHub Actions** em **Settings → Pages**, revise o ambiente `github-pages` e defina `PUBLISH_ALLURE_PAGES=true` nas variáveis do Actions do repositório. Isso habilita o job de Pages em pushes aprovados para `main`. Somente esse job tem `pages: write` e `id-token: write`. Siga a [política de publicação do Allure](publication-policy.md).
 
 ## Gate and exception policy / Gate e política de exceções
 
@@ -97,3 +101,21 @@ docker compose down
 | Critical test, expiry, missing/empty evidence, wrong profile / Teste crítico, vencimento, evidência ausente/vazia, perfil errado | Each rejected / Todos reprovados |
 | Restored reports / Relatórios restaurados | Exit 0; byte restoration verified / Saída 0; restauração dos bytes verificada |
 | Aggregate Allure / Allure agregado | 42 results; sanitization passed / 42 resultados; sanitização aprovada |
+
+## Pre-merge review / Revisão pré-merge (2026-11-24)
+
+**EN:** The 96 exact exceptions expire on 2026-12-31, 37 days after this review. The review used a 30-day window for imminent expiry. The gate was checked at the UTC date boundary and rejects all 96 entries from 2027-01-01.
+
+**PT-BR:** As 96 exceções exatas vencem em 31/12/2026, 37 dias após esta revisão. A revisão usou uma janela de 30 dias para identificar vencimentos próximos. O gate foi verificado na virada da data em UTC e reprova as 96 entradas a partir de 01/01/2027.
+
+| Check / Verificação | Result / Resultado |
+| --- | --- |
+| `npm run lint` | Passed / Aprovado |
+| `npm run pw:typecheck` | Passed / Aprovado |
+| `npm run quality:gate:verify` | Passed using existing local reports; original bytes restored / Aprovado com relatórios locais existentes; bytes originais restaurados |
+| YAML and workflow checks / Verificações de YAML e do workflow | Workflow, composite action, Semgrep configuration and Compose passed. Triggers, permissions and artifact guards verified / Workflow, action composta, configuração Semgrep e Compose aprovados. Gatilhos, permissões e condições de upload verificados |
+| Docker-dependent checks / Verificações dependentes de Docker | Docker daemon unavailable for actionlint and fresh scans / Daemon Docker indisponível para actionlint e novas varreduras |
+
+**EN:** For the first rollout, publish the feature branch commits and open or update a PR targeting `main`. Check the `quick` run under the PR's **Checks** tab and review `quality-gate-summary` and the ZAP SARIF. GitHub enables **Run workflow** once the workflow file is on the default branch. After merging, check the `full` run triggered by the push to `main` and verify the CycloneDX SBOM in `quality-trivy-image`. The local checks used existing scan evidence.
+
+**PT-BR:** Na primeira publicação, envie os commits da branch e abra ou atualize um PR para `main`. Confira a execução `quick` na aba **Checks** do PR e revise `quality-gate-summary` e o SARIF do ZAP. O GitHub disponibiliza **Run workflow** quando o arquivo do workflow está na branch padrão. Depois do merge, confira a execução `full` disparada pelo push na `main` e verifique o SBOM CycloneDX em `quality-trivy-image`. As verificações locais usaram as evidências de scan existentes.
