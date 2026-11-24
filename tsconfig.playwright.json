@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "moduleDetection": "force",
+    "noEmit": true
+  },
+  "include": ["playwright*.config.ts", "tests/**/*.ts", "scripts/*.ts", "pages/**/*.ts", "fixtures/**/*.ts", "utils/**/*.ts"],
+  "exclude": ["cypress", "node_modules"]
+}

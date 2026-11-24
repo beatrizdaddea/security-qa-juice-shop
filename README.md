@@ -1,5 +1,11 @@
 # Security QA — OWASP Juice Shop
 
+## Playwright security / Segurança com Playwright
+
+Run `npm run pw:security` for the 20 OWASP-mapped security checks; generate their separate Allure report in Docker with `npm run pw:security:allure`. See [the security matrix and execution instructions](docs/SECURITY-TESTS.md) for actual results, known vulnerabilities and scope limits.
+
+Execute `npm run pw:security` para as 20 verificações de segurança mapeadas ao OWASP; gere o relatório Allure separado em Docker com `npm run pw:security:allure`. Consulte [a matriz de segurança e as instruções de execução](docs/SECURITY-TESTS.md) para resultados reais, vulnerabilidades conhecidas e limites de escopo.
+
 ## English
 
 ### Project summary
@@ -51,13 +57,15 @@ The template in [docs/execution-report.md](docs/execution-report.md) does not ye
 
 ### ZAP baseline
 
-With Juice Shop running, execute:
+Start the local DAST stack and run the passive baseline:
 
 ```bash
-bash scripts/zap-baseline.sh
+npm run sec:zap:up
+npm run sec:zap:baseline
+npm run sec:zap:report
 ```
 
-The script accepts only `http://localhost:3000` and writes `reports/zap-baseline.html`. In the report, review **FAIL** alerts first, then **WARN** alerts. Confirm each alert manually, distinguish application vulnerabilities from scanner noise, map confirmed findings to OWASP/CWE, and create a bug file only after reproduction. ZAP may return a non-zero exit code when alerts are found; this does not mean the HTML report failed to generate.
+The daemon accepts only `http://localhost:3000` as scan target and exports HTML, JSON and SARIF to `reports/security/zap/`. See [docs/DAST.md](docs/DAST.md) for proxy-fed Playwright, justified rule exceptions, nightly active scanning and cleanup.
 
 ### Key learnings
 
@@ -70,7 +78,7 @@ The script accepts only `http://localhost:3000` and writes `reports/zap-baseline
 - Complete a formal run and fill the execution report.
 - Review and stabilize selectors across supported browsers.
 - Pin the Juice Shop image by immutable digest.
-- Review [docs/publication-policy.md](docs/publication-policy.md) before using the GitHub Pages workflow. The workflow publishes only a sanitized report after the test and sanitization jobs pass.
+- Review the publication policy before enabling the optional Pages deployment. [Allure publication policy](docs/publication-policy.md)
 
 ---
 
@@ -125,13 +133,15 @@ O template em [docs/execution-report.md](docs/execution-report.md) ainda não co
 
 ### ZAP baseline
 
-Com o Juice Shop em execução, use:
+Suba a stack DAST local e execute o baseline passivo:
 
 ```bash
-bash scripts/zap-baseline.sh
+npm run sec:zap:up
+npm run sec:zap:baseline
+npm run sec:zap:report
 ```
 
-O script aceita apenas `http://localhost:3000` e grava `reports/zap-baseline.html`. No relatório, analise primeiro os alertas **FAIL** e depois os **WARN**. Confirme cada alerta manualmente, diferencie vulnerabilidades da aplicação de ruído do scanner, mapeie achados confirmados para OWASP/CWE e crie um bug somente após reproduzi-lo. O ZAP pode retornar código diferente de zero quando encontra alertas; isso não significa que o HTML deixou de ser gerado.
+O daemon aceita somente `http://localhost:3000` como alvo e exporta HTML, JSON e SARIF para `reports/security/zap/`. Consulte [docs/DAST.md](docs/DAST.md) para Playwright pelo proxy, exceções justificadas, scan ativo noturno e limpeza.
 
 ### Principais aprendizados
 
@@ -144,22 +154,42 @@ O script aceita apenas `http://localhost:3000` e grava `reports/zap-baseline.htm
 - Concluir uma execução formal e preencher o relatório.
 - Revisar e estabilizar seletores nos navegadores suportados.
 - Fixar a imagem do Juice Shop por digest imutável.
-- Revisar a [política de publicação](docs/publication-policy.md) antes de usar o workflow do GitHub Pages. A publicação ocorre somente após os testes e a sanitização passarem.
+- Revisar a política de publicação antes de habilitar o deploy opcional no Pages. [Política de publicação do Allure](docs/publication-policy.md)
 
-## Allure on GitHub Pages / Allure no GitHub Pages
+## Quality and security pipeline / Pipeline de qualidade e segurança
 
 ### English
 
-Published report: **[Allure report (placeholder)](https://SEU_USUARIO.github.io/security-qa-juice-shop/)**
+Open a **Quality and Security** run to see the gate verdict and download its artifacts. [GitHub Actions](https://github.com/beatrizdaddea/security-qa-juice-shop/actions)
 
-The publication workflow is `.github/workflows/allure-pages.yml`. It runs on pushes to `main` or by manual dispatch, tests only the pinned Juice Shop image against `http://localhost:3000`, sanitizes the generated report, and deploys only when both jobs pass. Read [docs/publication-policy.md](docs/publication-policy.md) before publishing.
+| Profile | Trigger | Coverage |
+| --- | --- | --- |
+| `quick` | Pull request targeting `main`, or manual selection | Lint, secret scanning, SAST, dependency scanning, Chromium smoke, Playwright security and passive ZAP baseline |
+| `full` | Push to `main`, or manual default | Quick coverage with the full Chromium regression, plus Cypress and container image scanning |
+| `nightly` | Daily at 04:00 UTC, or manual selection | Full regression on Chromium, Firefox and WebKit, with the full ZAP scan |
 
-To enable Pages manually: open **Settings → Pages**, choose **Source: GitHub Actions**, review the `github-pages` environment, then run the workflow manually or push to `main`. To unpublish, disable or remove the Pages deployment and cancel any running workflow.
+Gitleaks scans Git history for secrets. Semgrep analyzes source code with repository-local rules. Trivy FS scans the npm lockfile and Trivy Image scans the Juice Shop image and exports `sbom.cdx.json` (CycloneDX) in `quality-trivy-image`. OWASP ZAP produces DAST reports in HTML, JSON and SARIF 2.1.0 in `quality-zap-baseline` or `quality-zap-full`.
+
+The `quality-gate` job uses `scripts/quality-gate.ts` to aggregate producer manifests and reports. It blocks missing or incomplete evidence, new High/Critical scanner findings and unaccepted security test failures. Read the job summary or download the JSON and Markdown from `quality-gate-summary`. Each exception in `security-baseline.json` requires an exact finding ID and source, an owner, a bilingual justification and an `expiresOn` date. The date is inclusive in UTC. Wildcards and expired entries fail the gate across all profiles. Maintainers review each exception individually before renewing it.
+
+The unified workflow is `.github/workflows/quality-security.yml`. Application tests target only `http://localhost:3000`. A successful run provides the `sanitized-allure-site` artifact. The optional public deployment also requires a successful push to `main`. [CI and local verification](docs/CI.md) · [Allure publication policy](docs/publication-policy.md)
+
+To enable public deployment, select **GitHub Actions** as the Pages source, review the `github-pages` environment, and set the repository Actions variable `PUBLISH_ALLURE_PAGES` to `true`.
 
 ### Português (PT-BR)
 
-Relatório publicado: **[Relatório Allure (placeholder)](https://SEU_USUARIO.github.io/security-qa-juice-shop/)**
+Abra uma execução de **Quality and Security** para ver o resultado do gate e baixar os artefatos. [GitHub Actions](https://github.com/beatrizdaddea/security-qa-juice-shop/actions)
 
-O workflow está em `.github/workflows/allure-pages.yml`. Ele testa somente a imagem fixada do Juice Shop contra `http://localhost:3000`, sanitiza o relatório e publica apenas quando os jobs passam. Para habilitar: abra **Settings → Pages**, escolha **Source: GitHub Actions**, revise o ambiente `github-pages` e execute o workflow. Para despublicar, desabilite ou remova o deployment do Pages e cancele workflows em execução.
+| Perfil | Gatilho | Cobertura |
+| --- | --- | --- |
+| `quick` | Pull request para `main` ou seleção manual | Lint, busca de segredos, SAST, análise de dependências, smoke no Chromium, testes de segurança Playwright e baseline passivo do ZAP |
+| `full` | Push na `main` ou padrão manual | Cobertura do quick com regressão completa no Chromium, Cypress e scan da imagem de contêiner |
+| `nightly` | Diariamente às 04:00 UTC ou seleção manual | Regressão completa em Chromium, Firefox e WebKit, com scan completo do ZAP |
 
-Consulte [docs/publication-policy.md](docs/publication-policy.md); nunca publique segredos, tokens, cookies, e-mails reais, logs brutos ou mídias proibidas.
+O Gitleaks procura segredos no histórico Git. O Semgrep analisa o código-fonte com regras locais do repositório. O Trivy FS verifica o lockfile do npm e o Trivy Image analisa a imagem do Juice Shop e exporta `sbom.cdx.json` (CycloneDX) em `quality-trivy-image`. O OWASP ZAP gera relatórios DAST em HTML, JSON e SARIF 2.1.0 em `quality-zap-baseline` ou `quality-zap-full`.
+
+O job `quality-gate` usa `scripts/quality-gate.ts` para agregar os manifestos e relatórios dos produtores. Ele bloqueia evidências ausentes ou incompletas, novos achados Altos/Críticos dos scanners e falhas de segurança não aceitas. Consulte o resumo do job ou baixe o JSON e o Markdown de `quality-gate-summary`. Cada exceção em `security-baseline.json` exige ID exato do achado, origem, responsável, justificativa bilíngue e data `expiresOn`. A exceção vale até o fim dessa data em UTC. Curingas e entradas vencidas reprovam o gate em todos os perfis. Os mantenedores revisam cada exceção individualmente antes de renová-la.
+
+O workflow unificado está em `.github/workflows/quality-security.yml`. Os testes da aplicação apontam somente para `http://localhost:3000`. Uma execução aprovada disponibiliza o artefato `sanitized-allure-site`. A publicação pública é opcional e também exige um push aprovado na `main`. [CI e verificação local](docs/CI.md) · [Política de publicação do Allure](docs/publication-policy.md)
+
+Para habilitar a publicação pública, selecione **GitHub Actions** como origem do Pages, revise o ambiente `github-pages` e defina a variável de repositório do Actions `PUBLISH_ALLURE_PAGES` como `true`.

@@ -1,0 +1,968 @@
+{
+  "schemaVersion": 1,
+  "target": "http://localhost:3000",
+  "recordedAt": "2026-10-25T20:27:06.750Z",
+  "imageId": "sha256:0cec496d878c6855a1c81694c9f91564082f418b84aece87538adb8850d2437e",
+  "exceptions": [
+    {
+      "id": "test:cypress:TC-005",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-005.md]: SQL injection input was accepted (HTTP 200). Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "A entrada SQL de treinamento foi aceita com HTTP 200 (BUG-TC-005). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-006",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-006.md]: Search input was interpreted as HTML or executed script content. Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "A busca interpretou HTML ou executou conteúdo de script (BUG-TC-006). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-007",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-007.md]: Another user's basket was accessible (HTTP 200). Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "A cesta de outro usuário ficou acessível com HTTP 200 (BUG-TC-007). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-008",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-008.md]: A regular user remained on the administration route. Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "Um cliente comum permaneceu na rota de administração (BUG-TC-008). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-010",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-010.md]: The users API exposed sensitive fields or data belonging to other users. Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "A API de usuários expôs campos sensíveis ou dados de outros usuários (BUG-TC-010). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-012",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-012.md]: One or more recommended security headers are missing or unsafe. Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "Headers de segurança recomendados estavam ausentes ou inseguros (BUG-TC-012). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-013",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-013.md]: The /ftp directory is publicly accessible (HTTP 200). Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "O diretório /ftp ficou acessível publicamente com HTTP 200 (BUG-TC-013). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-014",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-014.md]: Malformed input exposed internal error details (HTTP 500). Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "Entrada inválida expôs detalhes internos no erro HTTP 500 (BUG-TC-014). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-015",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-015.md]: The /metrics endpoint is publicly accessible (HTTP 200). Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "O endpoint /metrics ficou público com HTTP 200 (BUG-TC-015). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-016",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-016.md]: Registration accepted the weak password 12345. Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "O cadastro aceitou a senha fraca de cinco caracteres (BUG-TC-016). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-017",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-017.md]: Twenty failed login attempts completed without throttling or lockout. Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "Vinte tentativas de login inválidas terminaram sem limitação ou bloqueio (BUG-TC-017). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:cypress:TC-018",
+      "source": "cypress",
+      "justification": {
+        "en": "KNOWN_VULNERABILITY [bugs/BUG-TC-018.md]: The pre-logout token remained valid (HTTP 200). Accepted only for this disposable local training case; unexpected failures remain blocking.",
+        "ptBR": "O token anterior ao logout continuou válido com HTTP 200 (BUG-TC-018). Aceite limitado a este caso de treinamento local descartável; falhas inesperadas continuam bloqueantes."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-020",
+      "source": "security",
+      "justification": {
+        "en": "Users API exposes customer data to a regular customer (BUG-TC-010), independently of the UI route guard. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "API de usuários expõe dados a cliente comum (BUG-TC-010), independentemente do guard da rota da interface. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-021",
+      "source": "security",
+      "justification": {
+        "en": "Basket API does not verify ownership (BUG-TC-007). Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "API de cestas não verifica propriedade (BUG-TC-007). Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-022",
+      "source": "security",
+      "justification": {
+        "en": "The tracking API returns B's newly created order to A with HTTP 200. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "API de rastreio devolve o pedido recém-criado de B para A com HTTP 200. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-023",
+      "source": "security",
+      "justification": {
+        "en": "No enforced CSP header on the local application. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Aplicação local sem header de CSP obrigatória. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-024",
+      "source": "security",
+      "justification": {
+        "en": "HSTS is absent; HTTP localhost does not exercise transport enforcement. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "HSTS ausente; localhost HTTP não exercita aplicação da proteção de transporte. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-027",
+      "source": "security",
+      "justification": {
+        "en": "Referrer-Policy header is absent. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Header Referrer-Policy ausente. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-028",
+      "source": "security",
+      "justification": {
+        "en": "Authenticated basket response and preflight allow wildcard origins and the authorization request header. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Resposta autenticada de cesta e preflight permitem origens com curinga e header authorization. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-029",
+      "source": "security",
+      "justification": {
+        "en": "Public /ftp/ directory listing (BUG-TC-013). Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Listagem pública de /ftp/ (BUG-TC-013). Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-030",
+      "source": "security",
+      "justification": {
+        "en": "Public Prometheus metrics (BUG-TC-015). Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Métricas Prometheus públicas (BUG-TC-015). Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-031",
+      "source": "security",
+      "justification": {
+        "en": "Login accepts the training SQL input (BUG-TC-005). Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Login aceita entrada SQL de treinamento (BUG-TC-005). Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-032",
+      "source": "security",
+      "justification": {
+        "en": "Search interprets reflected HTML (BUG-TC-006). Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Busca interpreta HTML refletido (BUG-TC-006). Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-033",
+      "source": "security",
+      "justification": {
+        "en": "The search renders the javascript iframe and executes the local alert marker (DOM-based XSS). Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Busca renderiza o iframe javascript e executa o alert local de teste (XSS baseado em DOM). Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-034",
+      "source": "security",
+      "justification": {
+        "en": "API accepts 12345 with HTTP 201 and the account can log in using it. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "API aceita 12345 com HTTP 201 e a conta consegue entrar com essa senha. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-035",
+      "source": "security",
+      "justification": {
+        "en": "Real UI login creates a token cookie without HttpOnly/Secure and stores the JWT in localStorage; SameSite is Lax. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "Login real pela interface cria cookie de token sem HttpOnly/Secure e grava JWT no localStorage; SameSite é Lax. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-036",
+      "source": "security",
+      "justification": {
+        "en": "Login JWT lacks exp in this Juice Shop 20.2.0 container (legacy jsonwebtoken 0.4.0); lifetime is unbounded. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "JWT de login não possui exp neste container Juice Shop 20.2.0 (jsonwebtoken legado 0.4.0); validade ilimitada. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "test:playwright-security:TC-038",
+      "source": "security",
+      "justification": {
+        "en": "Malformed JSON leaks internal error details (BUG-TC-014); secondary A05 mapping. Accepted only for this observed local training case; unexpected failures remain blocking. Evidence: docs/SECURITY-TESTS.md.",
+        "ptBR": "JSON malformado vaza detalhes internos (BUG-TC-014); mapeamento secundário A05. Aceite limitado a este caso de treinamento local observado; falhas inesperadas continuam bloqueantes. Evidência: docs/SECURITY-TESTS.md."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2015-9235:jsonwebtoken@0.1.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: nodejs-jsonwebtoken: verification step bypass with an altered token. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: nodejs-jsonwebtoken: verification step bypass with an altered token. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2015-9235:jsonwebtoken@0.4.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: nodejs-jsonwebtoken: verification step bypass with an altered token. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: nodejs-jsonwebtoken: verification step bypass with an altered token. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2016-1000223:jws@0.2.6:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Forgeable Public/Private Tokens. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Forgeable Public/Private Tokens. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2017-18214:moment@2.0.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: nodejs-moment: Regular expression denial of service. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: nodejs-moment: Regular expression denial of service. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2018-16487:lodash@2.4.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: lodash: Prototype pollution in utilities function. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: lodash: Prototype pollution in utilities function. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2019-10744:lodash@2.4.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: nodejs-lodash: prototype pollution in defaultsDeep function leading to modifying properties. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: nodejs-lodash: prototype pollution in defaultsDeep function leading to modifying properties. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2020-15084:express-jwt@0.1.3:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Authorization bypass in express-jwt. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Authorization bypass in express-jwt. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2021-23337:lodash@2.4.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: nodejs-lodash: command injection via template. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: nodejs-lodash: command injection via template. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2022-23539:jsonwebtoken@0.1.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: jsonwebtoken: Unrestricted key type could lead to legacy keys usagen. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: jsonwebtoken: Unrestricted key type could lead to legacy keys usagen. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2022-23539:jsonwebtoken@0.4.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: jsonwebtoken: Unrestricted key type could lead to legacy keys usagen. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: jsonwebtoken: Unrestricted key type could lead to legacy keys usagen. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2022-24785:moment@2.0.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Moment.js: Path traversal  in moment.locale. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Moment.js: Path traversal  in moment.locale. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2022-25881:http-cache-semantics@3.8.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: http-cache-semantics: Regular Expression Denial of Service (ReDoS) vulnerability. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: http-cache-semantics: Regular Expression Denial of Service (ReDoS) vulnerability. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2022-25887:sanitize-html@1.4.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: sanitize-html: insecure global regular expression replacement logic may lead to ReDoS. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: sanitize-html: insecure global regular expression replacement logic may lead to ReDoS. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2023-46233:crypto-js@3.3.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: crypto-js: PBKDF2 1,000 times weaker than specified in 1993 and 1.3M times weaker than current standard. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: crypto-js: PBKDF2 1,000 times weaker than specified in 1993 and 1.3M times weaker than current standard. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2023-54404:zod@4.4.3:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: zod: zod: Denial of service via unbounded array validation. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: zod: zod: Denial of service via unbounded array validation. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2024-37890:ws@7.4.6:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: nodejs-ws: denial of service when handling a request with many HTTP headers. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: nodejs-ws: denial of service when handling a request with many HTTP headers. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2025-47935:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Multer vulnerable to Denial of Service via memory leaks from unclosed streams. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Multer vulnerable to Denial of Service via memory leaks from unclosed streams. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2025-47944:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Multer vulnerable to Denial of Service from maliciously crafted requests. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Multer vulnerable to Denial of Service from maliciously crafted requests. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2025-48997:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: multer: Multer vulnerable to Denial of Service via unhandled exception. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: multer: Multer vulnerable to Denial of Service via unhandled exception. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2025-65945:jws@0.2.6:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: node-jws: auth0/node-jws: Improper signature verification in HS256 algorithm. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: node-jws: auth0/node-jws: Improper signature verification in HS256 algorithm. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2025-7338:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: multer: Multer Denial of Service. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: multer: Multer Denial of Service. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-101894:decompress@4.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: @xhmikosr/decompress: @xhmikosr/decompress: Path traversal via symlink chain. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: @xhmikosr/decompress: @xhmikosr/decompress: Path traversal via symlink chain. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-102276:brace-expansion@1.1.18:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-102276:brace-expansion@2.1.4:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: brace-expansion: brace-expansion: Denial of Service via stack exhaustion from crafted brace patterns. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-102278:brace-expansion@1.1.18:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-102278:brace-expansion@2.1.4:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: brace-expansion: brace-expansion: Denial of Service via uncontrolled recursion in nested brace patterns. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-106445:handlebars@4.7.9:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: handlebars: Handlebars: JavaScript Injection via Own Property Check Bypass. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: handlebars: Handlebars: JavaScript Injection via Own Property Check Bypass. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-106446:handlebars@4.7.9:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: handlebars: Handlebars: JavaScript Injection via AST Type Confusion in compile (Program.blockParams). Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: handlebars: Handlebars: JavaScript Injection via AST Type Confusion in compile (Program.blockParams). Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-111181:body-parser@1.20.6:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: body-parser: body-parser: Denial of Service via unhandled decompression stream error. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: body-parser: body-parser: Denial of Service via unhandled decompression stream error. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-12151:undici@5.29.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: undici: undici: Denial of Service due to unbounded memory growth via WebSocket frames. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: undici: undici: Denial of Service due to unbounded memory growth via WebSocket frames. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-14456:libssl3t64@3.5.6-1~deb13u2:/output/image.tar (debian 13.6)",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: openssl: OpenSSL: Denial of Service via unbounded memory growth in QUIC server. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: openssl: OpenSSL: Denial of Service via unbounded memory growth in QUIC server. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-1526:undici@5.29.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: undici: undici: Denial of Service via unbounded memory consumption during WebSocket permessage-deflate decompression. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: undici: undici: Denial of Service via unbounded memory consumption during WebSocket permessage-deflate decompression. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-19481:@fastify/busboy@2.1.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: fastify/busboy: fastify/busboy: Denial of Service from crafted form-data headers. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: fastify/busboy: fastify/busboy: Denial of Service from crafted form-data headers. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-2229:undici@5.29.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: undici: Undici: Denial of Service via invalid WebSocket permessage-deflate extension parameter. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: undici: Undici: Denial of Service via invalid WebSocket permessage-deflate extension parameter. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-2359:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: multer: Multer: Denial of Service via dropped file upload connections. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: multer: Multer: Denial of Service via dropped file upload connections. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-23745:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: node-tar: tar: node-tar: Arbitrary file overwrite and symlink poisoning via unsanitized linkpaths in archives. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: node-tar: tar: node-tar: Arbitrary file overwrite and symlink poisoning via unsanitized linkpaths in archives. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-23950:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: node-tar: tar: node-tar: Arbitrary file overwrite via Unicode path collision race condition. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: node-tar: tar: node-tar: Arbitrary file overwrite via Unicode path collision race condition. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-24842:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: node-tar: tar: node-tar: Arbitrary file creation via path traversal bypass in hardlink security check. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: node-tar: tar: node-tar: Arbitrary file creation via path traversal bypass in hardlink security check. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-26960:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: node-tar: node-tar: Arbitrary file read/write via malicious archive hardlink creation. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: node-tar: node-tar: Arbitrary file read/write via malicious archive hardlink creation. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-26996:minimatch@3.0.5:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: minimatch: minimatch: Denial of Service via specially crafted glob patterns. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: minimatch: minimatch: Denial of Service via specially crafted glob patterns. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-27903:minimatch@3.0.5:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: minimatch: minimatch: Denial of Service due to unbounded recursive backtracking via crafted glob patterns. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: minimatch: minimatch: Denial of Service due to unbounded recursive backtracking via crafted glob patterns. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-27904:minimatch@3.0.5:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: minimatch: Minimatch: Denial of Service via catastrophic backtracking in glob expressions. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: minimatch: Minimatch: Denial of Service via catastrophic backtracking in glob expressions. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-29786:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: node-tar: hardlink path traversal via drive-relative linkpath. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: node-tar: hardlink path traversal via drive-relative linkpath. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-31802:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: tar: tar: File overwrite via drive-relative symlink traversal. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: tar: tar: File overwrite via drive-relative symlink traversal. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-3304:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: multer: Multer: Denial of Service via malformed requests. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: multer: Multer: Denial of Service via malformed requests. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-33151:socket.io-parser@4.0.5:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: socket.io: Socket.IO: Denial of Service due to excessive buffering of specially crafted packets. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: socket.io: Socket.IO: Denial of Service due to excessive buffering of specially crafted packets. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-3520:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: multer: Multer: Denial of Service via malformed requests. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: multer: Multer: Denial of Service via malformed requests. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-48779:ws@7.4.6:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: ws: ws: Denial of Service via memory exhaustion from small WebSocket fragments. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: ws: ws: Denial of Service via memory exhaustion from small WebSocket fragments. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-5079:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: multer: Multer: Denial of Service via deeply nested field names in multipart form data. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: multer: Multer: Denial of Service via deeply nested field names in multipart form data. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-53486:decompress@4.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: decompress: @xhmikosr/decompress: Decompress: Arbitrary file read/write via crafted archive extraction. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: decompress: @xhmikosr/decompress: Decompress: Arbitrary file read/write via crafted archive extraction. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-59725:engine.io@4.1.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: socket.io: engine.io: Socket.IO: Denial of Service via invalid binary POST requests. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: socket.io: engine.io: Socket.IO: Denial of Service via invalid binary POST requests. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-59873:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: tar: node-tar: Denial of Service via crafted gzip bomb. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: tar: node-tar: Denial of Service via crafted gzip bomb. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-59874:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: tar: Node-tar: Denial of Service via malformed tar archive header. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: tar: Node-tar: Denial of Service via malformed tar archive header. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-69185:socket.io-parser@4.0.5:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: socket.io-parser: Socket.IO: Denial of Service via memory exhaustion from crafted packets. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: socket.io-parser: Socket.IO: Denial of Service via memory exhaustion from crafted packets. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-71851:crypto-js@3.3.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: crypto-js: crypto-js: Insufficient Entropy in Cryptographic Secret Generation via Vulnerable CryptoJS Dependency Chain. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: crypto-js: crypto-js: Insufficient Entropy in Cryptographic Secret Generation via Vulnerable CryptoJS Dependency Chain. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-73566:tar@6.2.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: tar: node-tar: Denial of Service via crafted long-path tar archive. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: tar: node-tar: Denial of Service via crafted long-path tar archive. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-77078:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: multer: Multer: Denial of Service via crafted multipart field names. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: multer: Multer: Denial of Service via crafted multipart field names. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-82333:multer@1.4.5-lts.2:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: multer: Multer: Denial of Service via oversized array index in field names. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: multer: Multer: Denial of Service via oversized array index in field names. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-84375:js-yaml@3.15.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: js-yaml: js-yaml: Denial of Service vulnerability in YAML parsing. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: js-yaml: js-yaml: Denial of Service vulnerability in YAML parsing. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-84782:libssl3t64@3.5.6-1~deb13u2:/output/image.tar (debian 13.6)",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: openssl: compat-openssl: openssl: Information disclosure via DTLS handshake retransmission. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: openssl: compat-openssl: openssl: Information disclosure via DTLS handshake retransmission. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-87776:compression@1.8.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: compression: compression: Denial of Service via memory leak on premature response close. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: compression: compression: Denial of Service via memory leak on premature response close. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-90711:proxy-addr@2.0.7:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: proxy-addr: proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: proxy-addr: proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-93748:http-cache-semantics@3.8.1:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: http-cache-semantics: http-cache-semantics: Information Disclosure via max-stale directive. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: http-cache-semantics: http-cache-semantics: Information Disclosure via max-stale directive. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:CVE-2026-93748:http-cache-semantics@4.2.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: http-cache-semantics: http-cache-semantics: Information Disclosure via max-stale directive. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: http-cache-semantics: http-cache-semantics: Information Disclosure via max-stale directive. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:GHSA-5mrr-rgp6-x4gr:marsdb@0.6.11:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Command Injection in marsdb. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Command Injection in marsdb. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:NSWG-ECO-17:jsonwebtoken@0.1.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Verification Bypass. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Verification Bypass. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:NSWG-ECO-17:jsonwebtoken@0.4.0:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Verification Bypass. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Verification Bypass. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    },
+    {
+      "id": "trivy-image:NSWG-ECO-428:base64url@0.0.6:Node.js",
+      "source": "trivy-image",
+      "justification": {
+        "en": "Existing finding in the disposable local Juice Shop image: Out-of-bounds Read. Temporary lab-only acceptance of this exact CVE/package/version; review the image upgrade before expiry.",
+        "ptBR": "Achado existente na imagem local descartável do Juice Shop: Out-of-bounds Read. Aceite temporário apenas no laboratório deste CVE/pacote/versão exatos; revisar atualização da imagem antes do vencimento."
+      },
+      "owner": "QE / AppSec maintainers",
+      "expiresOn": "2026-12-31"
+    }
+  ]
+}

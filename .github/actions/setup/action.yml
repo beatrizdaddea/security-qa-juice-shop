@@ -1,0 +1,42 @@
+name: Project dependencies
+description: Cached Node dependencies and optional browser runtimes
+inputs:
+  browser:
+    description: Playwright browser to install, or none
+    default: none
+  cypress:
+    description: Install Cypress binary
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version: '24'
+        cache: npm
+    - uses: actions/cache@v5
+      if: inputs.browser != 'none'
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ inputs.browser }}-${{ hashFiles('package-lock.json') }}
+    - uses: actions/cache@v5
+      if: inputs.cypress == 'true'
+      with:
+        path: ~/.cache/Cypress
+        key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
+    - name: Install locked dependencies
+      shell: bash
+      env:
+        CYPRESS_INSTALL_BINARY: '0'
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      run: npm ci
+    - name: Install Playwright runtime and system libraries
+      if: inputs.browser != 'none'
+      shell: bash
+      env:
+        BROWSER: ${{ inputs.browser }}
+      run: node ./node_modules/@playwright/test/cli.js install --with-deps "$BROWSER"
+    - name: Install Cypress runtime
+      if: inputs.cypress == 'true'
+      shell: bash
+      run: node ./node_modules/cypress/bin/cypress install
