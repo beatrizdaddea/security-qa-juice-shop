@@ -169,6 +169,11 @@ jobs:
       - uses: ./.github/actions/setup
         with: {browser: chromium}
       - run: npm run sec:zap:up
+      - name: Prepare passive ZAP report directory
+        if: env.ZAP_JOB == 'zap-baseline'
+        run: |
+          docker compose exec -T --user 0 zap chown zap /zap/wrk/reports
+          docker compose exec -T zap test -w /zap/wrk/reports
       - name: Seed ZAP using functional smoke
         env:
           ZAP_PROXY: http://localhost:8080

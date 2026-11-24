@@ -48,6 +48,7 @@
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.64.1",
+    "@types/node": "^24.19.2",
     "allure-commandline": "^2.46.1",
     "allure-cypress": "^3.13.0",
     "allure-js-commons": "^3.13.0",
